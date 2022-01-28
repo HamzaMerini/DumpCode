@@ -1,8 +1,10 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<filesystem>
 
 using namespace std;
+using std::filesystem::exists;
 
 bool isLoggedIn(){
     string username,password, un, pw;
@@ -31,7 +33,8 @@ int main(){
     cout << "*****************"<< endl;
     cout << "1:Register"<< endl;
     cout << "2:Login"<< endl;
-    cout << "3:Exit"<< endl;
+    cout << "3:Modify Password"<< endl;
+    cout << "4:Exit"<< endl;
     cout << "*****************"<< endl;
     cout << "Your choise : ";
     cin >> choise;
@@ -51,8 +54,8 @@ int main(){
         }
 
         main();
-
     }
+
     else if (choise ==2){
         bool status=isLoggedIn();   
 
@@ -73,6 +76,31 @@ int main(){
     }
 
     else if (choise==3){
+
+        string username,password;
+        ofstream mfile;
+
+        cout << "What is your username ? "; 
+        cin >> username ;
+
+        if(exists(username+".txt")){ 
+
+            mfile.open(username+".txt");//write
+            cout << "Select a new password : "; cin >> password;
+            
+            if(mfile.is_open()){
+                mfile << username <<endl << password;
+                mfile.close();
+            }
+        }
+        else
+            cout << "Username does not exist ! " <<endl;
+            system("PAUSE(1)");
+
+        main();
+    }
+
+    else if (choise==4){
             cout<<"Exiting..."<<endl;
             exit(0);
     }
