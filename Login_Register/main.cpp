@@ -85,7 +85,7 @@ int main(){
 
         if(exists(username+".txt")){ 
 
-            mfile.open(username+".txt");//write
+            mfile.open(username+".txt");
             cout << "Select a new password : "; cin >> password;
             
             if(mfile.is_open()){
@@ -95,7 +95,7 @@ int main(){
         }
         else
             cout << "Username does not exist ! " <<endl;
-            system("PAUSE(1)");
+            system("PAUSE");
 
         main();
     }
