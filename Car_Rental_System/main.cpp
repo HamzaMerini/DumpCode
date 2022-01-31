@@ -66,7 +66,7 @@ class car{
     public:
     
     void ChooseCar(string name,string LN){
-        char choice;int days;
+        char choice;
         system("cls");
         cout <<"\n\t\t\t\t\t\t  Choose a car for "<<name<<" #"<<LN<<endl;
         cout<<"\t\t\t\t\t-------------------------------------------------------\n";	
@@ -82,6 +82,7 @@ class car{
             cout << "\n You chosen "<< modelA<<endl;
             removeCar(modelA,stockA,stockB,stockC);
             cout <<"Cars left: "<<stockA<<endl;
+            rent(modelA);
              }
             else{    
                 cout<<"No more carmodel available, please choose another model\n";
@@ -95,6 +96,7 @@ class car{
             cout << "\n You chosen "<< modelB<<endl;
             removeCar(modelB,stockA,stockB,stockC);
             cout <<"Cars left: "<<stockB<<endl;
+            rent(modelB);
             }
             else{    
                 cout<<"No more carmodel available, please choose another model\n";
@@ -107,6 +109,8 @@ class car{
                 cout << "\n You chosen\n";
                 removeCar(modelC,stockA,stockB,stockC);
                 cout <<"Cars left: "<<stockC<<endl;
+                rent(modelC);
+                
             }
             else {   
                 cout<<"No more carmodel available, please choose another model\n";
@@ -120,12 +124,25 @@ class car{
             system ("CLS");
             ChooseCar(name,LN);
             }
-        
-
-  
-        
     }
 
+    void rent(string model){
+        int days; int payment;
+        cout<<"How many days to rent ?"<<endl; cin >> days;
+
+        if(model==modelA){
+            payment=days*priceA;
+        }
+        else if(model==modelB){
+            payment=days*priceB;
+        }
+        else 
+            payment=days*priceC;
+
+        cout<<"You should pay "<<payment<<endl;
+        system("PAUSE");
+        return;
+    }
 };
 
 // Name - Driving licence N. - historique
@@ -241,7 +258,7 @@ int main(){
     Ab.Info();
 
     
-    
+    cout << "Thank You!"<<endl;
     system("PAUSE");
     return 0;
     
