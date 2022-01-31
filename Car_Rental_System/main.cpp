@@ -3,6 +3,7 @@
 #include<string>
 #include<conio.h>
 #include<filesystem>
+#include <sstream>
 
 
 using namespace std;
@@ -12,12 +13,58 @@ using std::filesystem::exists;
 // Model - Plate N. - characteristics - price - rent calcul - available cars
 class car{
     private:
-    string modelA = "Renault"; int stockA=1,priceA=25;//files
-    string modelB = "Volkswagen"; int stockB=6,priceB=35;
-    string modelC = "Tesla"; int stockC=4,priceC=45;
+    string modelA = "Renault"; int stockA,priceA=25;//files
+    string modelB = "Volkswagen"; int stockB,priceB=35;
+    string modelC = "Tesla"; int stockC,priceC=45;
 
+    friend class customer;
+
+    car(){   
+        //ofstream stockfile;  
+        int cpt=1;
+        ifstream stockfile("stock.txt");
+        string num;     
+        while (getline(stockfile, num)) {
+            if(cpt==1)
+                stockA=stoi(num);
+            if(cpt==2)
+                stockB=stoi(num); 
+            if(cpt==3)
+                stockC=stoi(num); 
+
+            cpt+=1;    
+        }
+    }
+
+    void removeCar(string model,int sA, int sB, int sC){
+    
+        if(model==modelA){
+            sA-=1;
+            stockA-=1;
+            }            
+        
+        if(model==modelB){ 
+            sB-=1;
+            stockB-=1;   
+            }    
+            
+        if(model==modelC){
+            sC-=1;       
+            stockC-=1;
+            }
+
+        ofstream file;
+        file.open("stock.txt",ios::out);//write
+        
+        if(file.is_open()){
+            file << sA <<endl<<sB <<endl<<sC;
+            file.close();
+        }
+
+    }
 
     public:
+    
     void ChooseCar(string name,string LN){
         char choice;int days;
         system("cls");
@@ -28,31 +75,55 @@ class car{
         cout <<"\n\t\t\t\t\t\t\t   C : "<<modelC<<endl;
         cout <<"\n\t\t\t\t\t\t\t Your choice : ";
         cin >> choice;
-        cout <<"\n\t\t\t\t\t\t\t   Days : ";
-        cin >> days;
-        
-        if(choice =='A'){
+ 
+       
+        if(choice=='A'){ 
             if(stockA>0){
-                cout << "\nMarhba\n";
-                stockA-=1;
+            cout << "\n You chosen "<< modelA<<endl;
+            removeCar(modelA,stockA,stockB,stockC);
+            cout <<"Cars left: "<<stockA<<endl;
+             }
+            else{    
+                cout<<"No more carmodel available, please choose another model\n";
+                system("PAUSE");
+                ChooseCar(name,LN);
             }
-            else    
-                cout<<"No more carmodel available\n";
+        }
+        
+        else if(choice=='B'){
+            if(stockB>0){
+            cout << "\n You chosen "<< modelB<<endl;
+            removeCar(modelB,stockA,stockB,stockC);
+            cout <<"Cars left: "<<stockB<<endl;
+            }
+            else{    
+                cout<<"No more carmodel available, please choose another model\n";
+                system("PAUSE");
+                ChooseCar(name,LN);}
         }
 
-        else if(choice =='B'){
-
+        else if(choice=='C') {
+            if(stockC>0){
+                cout << "\n You chosen\n";
+                removeCar(modelC,stockA,stockB,stockC);
+                cout <<"Cars left: "<<stockC<<endl;
+            }
+            else {   
+                cout<<"No more carmodel available, please choose another model\n";
+                system("PAUSE");
+                ChooseCar(name,LN);}
         }
 
-        else if(choice =='C'){
-            
-        }
+        else{
+            cout<<"\n \t\t\t\t Please enter a correct choice !\n";
+           // system("PAUSE");
+            system ("CLS");
+            ChooseCar(name,LN);
+            }
+        
 
-        else
-            cout<<"Please enter a correct choice !\n";
-
-
-    return;
+  
+        
     }
 
 };
@@ -164,8 +235,8 @@ void welcome(){
 int main(){   
    //customer A;
     user A;
-    welcome();
-    A.Login();
+    //welcome();
+    //A.Login();
     customer Ab;
     Ab.Info();
 
